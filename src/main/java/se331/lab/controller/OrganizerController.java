@@ -22,7 +22,7 @@ import java.util.List;
 
 public class OrganizerController {
     final OrganizeService organizeService;
-    @GetMapping("organizers")
+    @GetMapping("organizes")
     public ResponseEntity<?> getOrganizeLists(@RequestParam(value = "_limit", required = false ) Integer perPage, @RequestParam(value = "_page", required = false ) Integer page) {
         List<Organization> output = null;
         Integer OrganizeSize = organizeService.getOrganizeSize();
@@ -38,7 +38,7 @@ public class OrganizerController {
 
     }
 
-    @GetMapping("organizers/{id}")
+    @GetMapping("organizes/{id}")
     public ResponseEntity<?> getEvent(@PathVariable("id") Long id) {
         Organization output = organizeService.getOrganize(id);
         if (output != null) {

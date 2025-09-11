@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import se331.lab.entity.Event;
 import se331.lab.repository.EventRepository;
 
-import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
@@ -21,12 +20,17 @@ public class EventDaoDblmpl implements EventDao {
     }
 
     @Override
-    public Page<Event> getEvents(Integer pageSize, Integer page){;
+    public Page<Event> getEvents(Integer pageSize, Integer page){
         return eventRepository.findAll(PageRequest.of(page - 1 , pageSize));
     }
 
     @Override
     public Event getEvent(Long id){
         return eventRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Event save(Event event){
+        return eventRepository.save(event);
     }
 }

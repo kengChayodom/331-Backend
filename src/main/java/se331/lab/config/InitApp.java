@@ -5,17 +5,20 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 import se331.lab.entity.Event;
+import se331.lab.entity.Organization;
 import se331.lab.repository.EventRepository;
+import se331.lab.repository.OrganizeRepository;
 
 @Component
 @RequiredArgsConstructor
 public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
 
     private final EventRepository eventRepository;
+    private final OrganizeRepository organizeRepository;
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
-        // Create and save a "Midterm Exam" event
+
         eventRepository.save(Event.builder()
                 .category("Academic")
                 .title("Midterm Exam")
@@ -62,5 +65,32 @@ public class InitApp implements ApplicationListener<ApplicationReadyEvent> {
                 .petAllowed(true)
                 .organizer("Chiang Mai Municipality")
                 .build());
+
+
+        organizeRepository.save(Organization.builder()
+                .organization_Name("CAMT")
+                .address("123 A Street")
+                .build());
+
+        organizeRepository.save(Organization.builder()
+                .organization_Name("CMU")
+                .address("456 B Avenue")
+                .build());
+
+        organizeRepository.save(Organization.builder()
+                .organization_Name("Chiang Mai")
+                .address("789 C Road")
+                .build());
+
+        organizeRepository.save(Organization.builder()
+                .organization_Name("Chiang Mai Municipality")
+                .address("101 D Lane")
+                .build());
     }
+
+
+
+
+
+
 }

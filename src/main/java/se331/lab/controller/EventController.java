@@ -3,6 +3,7 @@ package se331.lab.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,14 +23,20 @@ public class EventController {
     final EventService eventService;
 
     @GetMapping("events")
-    public ResponseEntity<?> getEventLists(@RequestParam(value = "_limit", required = false ) Integer perPage,@RequestParam(value = "_page", required = false ) Integer page , @RequestParam(value = "title" , required = false) String title) {
+    public ResponseEntity<?> getEventLists(@RequestParam(value = "_limit", required = false ) Integer perPage,
+                                           @RequestParam(value = "_page", required = false ) Integer page ,
+                                           @RequestParam(value = "title" , required = false) String title ,
+                                           @RequestParam(value = "description" , required = false) String description ,
+                                           @RequestParam(value = "organizer" , required = false) String organizerName) {
         perPage = perPage == null ? 3 : perPage;
         page = page == null ? 1 : page;
         Page<Event> pageOutput;
-        if(title == null) {
+        if (title != null || description != null || organizerName != null) {
+            // Case: One or more search parameters are provided.
+            pageOutput = eventService.getEvents(title, description, organizerName, PageRequest.of(page - 1, perPage));
+        } else {
+            // Case: No search parameters, return all events.
             pageOutput = eventService.getEvents(perPage, page);
-        }else{
-            pageOutput = eventService.getEvents(title , PageRequest.of(page - 1, perPage));
         }
 
         HttpHeaders responseHeaders = new HttpHeaders();

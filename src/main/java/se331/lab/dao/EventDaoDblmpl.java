@@ -37,6 +37,12 @@ public class EventDaoDblmpl implements EventDao {
 
     @Override
     public  Page<Event> getEvents(String title ,String description, String organizerName, Pageable pageable){
-        return eventRepository.findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrOrganizerContainingIgnoreCase(title,description,organizerName,pageable);
+        String t = (title == null) ? "" : title;
+        String d = (description == null) ? "" : description;
+        String o = (organizerName == null) ? "" : organizerName;
+
+        return eventRepository.findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrOrganizerContainingIgnoreCase(
+                t, d, o, pageable
+        );
     }
 }

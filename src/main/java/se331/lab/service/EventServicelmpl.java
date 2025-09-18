@@ -35,7 +35,12 @@ public class EventServicelmpl implements EventService {
     }
 
     @Override
-    public  Page<Event> getEvents(String name ,String description, String organizerName, Pageable pageable){
-        return eventDao.getEvents(name,description,organizerName, pageable);
+    public Page<Event> getEvents(String title, String description, String organizerName, Pageable pageable){
+
+        String t = (title == null) ? "" : title;
+        String d = (description == null) ? "" : description;
+        String o = (organizerName == null) ? "" : organizerName;
+
+        return eventDao.getEvents(t, d, o, pageable);
     }
 }
